@@ -7,10 +7,27 @@ export default class NotesAPI{
     }
 
     static saveNote(note) {
+        const notes = NotesAPI.getAllNotes();
+        const existing = notes.find(n => n.id === note.id);
+
+        // Edit / Update
+        if (existing) {
+            existing.title = note.title;
+            existing.body = note.body;
+            existing.updated = new Date().toISOString();
+        } else {
+            note.id = Math.floor(Math.random() * 1000000);
+            note.updated = new Date().toISOString();
+            notes.push(note);
+        }
         
+        localStorage.setItem("notes", JSON.stringify(notes));
     }
 
     static deleteNote(id) {
-        
+        const notes = NotesAPI.getAllNotes();
+        const newNotes = notes.filter(note => note.id !== id);
+
+        localStorage.setItem("notes", JSON.stringify(newNotes));
     }
 }
