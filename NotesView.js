@@ -9,10 +9,10 @@ export default class NotesView{
             <div class="notes__sidebar">
             <button class="notes__add" type="button">Add Note</button>
             <div class="notes__list">
-                <div class="notes__list-item notes__list-item--selected">
+                <div class="notes__list-item">
                     <div class="notes__small-title"></div>
-                    <div class="notes__small-body">I did nothing today.</div>
-                    <div class="notes__small-updated">Thursday 3:30 PM</div>
+                    <div class="notes__small-body"></div>
+                    <div class="notes__small-updated"></div>
                 </div>
             </div>
             </div>
@@ -38,8 +38,6 @@ export default class NotesView{
                 this.onNoteEdit(updatedTitle, updatedBody);
             });
         });
-
-        console.log(this._createListItemHTML(300, 'Hello Universe', 'Howdy!', new Date()))
 
         this.updatedNotePreviewVisibility(false);        
     }
@@ -74,13 +72,13 @@ export default class NotesView{
         // Add select / delete events for each list item
         notesListContainer.querySelectorAll('.notes__list-item').forEach(noteListItem => {
             noteListItem.addEventListener('click', () => {
-                this.onNoteSelect(noteListItem.dataset.noteId);
+                this.onNoteSelect(Number(noteListItem.dataset.noteId));
             });
 
             noteListItem.addEventListener('dblclick', () => {
                 const doDelete = confirm('Are you sure you want to delete this note?');
                 if (doDelete) {
-                    this.onNoteDelete(noteListItem.dataset.noteId);
+                    this.onNoteDelete(Number(noteListItem.dataset.noteId));
                 }
             })
         });
@@ -91,7 +89,7 @@ export default class NotesView{
         this.root.querySelector('.notes__body').value = note.body;
 
         this.root.querySelectorAll('.notes__list-item').forEach(noteListItem => {
-            noteListItem.classList.remove('.notes__list-item--selected');
+            noteListItem.classList.remove('notes__list-item--selected');
         });
 
         this.root.querySelector(`.notes__list-item[data-note-id="${note.id}"]`).classList.add('notes__list-item--selected');

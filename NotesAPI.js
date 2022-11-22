@@ -16,7 +16,7 @@ export default class NotesAPI{
             existing.body = note.body;
             existing.updated = new Date().toISOString();
         } else {
-            note.id = Math.floor(Math.random() * 1000000);
+            note.id = Number(Math.floor(Math.random() * 1000000));
             note.updated = new Date().toISOString();
             notes.push(note);
         }
